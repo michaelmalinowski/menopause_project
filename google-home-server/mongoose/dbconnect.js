@@ -16,7 +16,13 @@ db.once('open', function() {
 var user = new mongoose.Schema({
   name: String,
   apiKey: String,
-  devices: Array,
+  devices: [{
+    name: String,
+    characteristics: [{
+      property: String,
+      value: String
+    }]
+  }],
   dateCreated: {type: Date, default: Date.now}
 });
 
