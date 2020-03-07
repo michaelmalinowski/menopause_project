@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Socket.IO Chat Example</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Fan Status</h2>
+    <buttom onClick="/fanOn">Fan On</buttom>
+  <script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+    function send(data){
+      socket.emit('hello', data);
+    }
+</script>
+</body>
+</html>
