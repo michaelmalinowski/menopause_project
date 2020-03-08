@@ -1,5 +1,5 @@
 const port = 80;
-const hostname = '127.0.0.1';
+const hostname = '0.0.0.0';
 const api = '3sappE45EtYWb/C/JL8Ejc48nP1hReZyYoI3QIlMF/VLrrsHvcIU1I464JPnoukGijHYSy53BfV2TQfhVbndA==';
 
 let User = require('./mongoose/UserController');
@@ -12,6 +12,12 @@ let io = require('socket.io')(server);
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+app.get('/', async function (req, res) {    
+
+
+    res.status(200).send("Hello from google-menopause server");
 });
 
 app.post('/createUser', async function (req, res) {    
