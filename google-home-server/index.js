@@ -1,6 +1,5 @@
 const port = 80;
 const hostname = '0.0.0.0';
-const api = '3sappE45EtYWb/C/JL8Ejc48nP1hReZyYoI3QIlMF/VLrrsHvcIU1I464JPnoukGijHYSy53BfV2TQfhVbndA==';
 
 let User = require('./mongoose/UserController');
 var bodyParser = require('body-parser');

@@ -2,8 +2,12 @@ const port = 80;
 const hostname = '127.0.0.1';
 
 let mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config();
 
-mongoose.connect('mongodb+srv://google-home-mongodb:menopause@google-home-mongodb-xzvkn.gcp.mongodb.net/test?retryWrites=true&w=majority', 
+const mongodb_connection = process.env.MONGODB_CONNECTION;
+
+mongoose.connect(mongodb_connection, 
 {useNewUrlParser: true, useUnifiedTopology: true});
 
 var db = mongoose.connection;
