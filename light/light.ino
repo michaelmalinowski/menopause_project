@@ -8,6 +8,7 @@
 ESP8266WiFiMulti WiFiMulti;
 
 int power = 0;
+String key = String(API_KEY);
 
 void setup() {
     pinMode(13, OUTPUT);
@@ -23,7 +24,7 @@ void loop() {
 
         HTTPClient http;
 
-        http.begin("http://34.66.131.1/getCharacteristic?key=3sappE45EtYWb/C/JL8Ejc48nP1hReZyYoI3QIlMF/VLrrsHvcIU1I464JPnoukGijHYSy53BfV2TQfhVbndA==&deviceName=Light&characteristic=Power"); //HTTP
+        http.begin("http://34.66.131.1/getCharacteristic?key="+ key +"&deviceName=Light&characteristic=Power"); //HTTP
 
         int statusCode = http.GET();
 

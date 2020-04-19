@@ -4,13 +4,14 @@
 #include "MAX30105.h"
 #include "heartRate.h"
 #include "SingleLinkedList.h"
-#include "wifiSercets.h"
+#include "wifiSecrets.h"
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <ESP8266HTTPClient.h>
 
-//Defines a digital 
+//D4 on D1 Mini
 #define TEMP_PIN 2 
+
 //Class initializations start
 ESP8266WiFiMulti WiFiMulti;
 
@@ -20,11 +21,12 @@ DallasTemperature temperatureSensor(&oneWire);
 //heartBeatList saves the last 10 recorded heart beats
 SingleLinkedList* heartBeatList = new SingleLinkedList(15);
 //temperatureList saves the last 10 recorded temperatures
-SingleLinkedList* temperatureList = new SingleLinkedList(10);
+SingleLinkedList* temperatureList = new SingleLinkedList(15);
 MAX30105 heartRateSensor;
 //Class initialization ends
 
 //checkRate determines the averaging count
+String key = String(API_KEY);
 int checkRate = 1;
 float temperature;
 unsigned long timeElapsed;
@@ -49,7 +51,7 @@ bool sendPing(String mode) {
     Serial.println("PING");
     HTTPClient http;
 
-    http.begin("http://34.66.131.1/updateCharacteristic?key=3sappE45EtYWb/C/JL8Ejc48nP1hReZyYoI3QIlMF/VLrrsHvcIU1I464JPnoukGijHYSy53BfV2TQfhVbndA==&deviceName=Light&characteristic=Power&value=" + mode); 
+    http.begin("http://34.66.131.1/updateCharacteristic?key="+ key +"&deviceName=Fan&characteristic=Status&value=" + mode); 
 
     int statusCode = http.POST(0,0);
     if(statusCode > 0) {

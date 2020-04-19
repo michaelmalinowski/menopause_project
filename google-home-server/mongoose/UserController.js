@@ -157,7 +157,7 @@ class UserController {
             ++counter;
         }
         
-        return 'Device not found'
+        return 'Device not found';
     }
     //return the characteristics value
     async getCharacteristic(apiKey, deviceName, characteristicName){

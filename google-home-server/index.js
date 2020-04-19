@@ -75,9 +75,6 @@ app.post('/updateCharacteristic', async function (req, res) {
     res.status(200).send(success);
 });
 
-app.get('/fanOff', function (req, res){
-    fanOn = -1;
-});
 
 
 
