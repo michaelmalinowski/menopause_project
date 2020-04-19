@@ -16,8 +16,9 @@ class Device {
     }
 
     async addCharacteristic(newCharacteristic){
-        for await (let characteristic of this.characteristics){       
-            if (characteristic.property === newCharacteristic.property){
+        for await (let characteristic of this.characteristics){     
+              
+            if (characteristic.property === newCharacteristic.property && characteristic.property !== undefined){
                 
                 return "Characteristic aleady exists";
             }
@@ -40,13 +41,17 @@ class Device {
 
         return "Characteristic does not exist";
     }
-    removeCharacteristic(name){
-        return this.characteristics.map(function(item){
-            if (item.name !== name){
-
-                return item;
+    async removeCharacteristic(characteristicName){
+        let counter = 0;
+        for await (let characteristic of this.characteristics){
+            if (characteristic.property === characteristicName){
+                this.characteristics.splice(counter, 1);
+                return true;
             }
-        });
+            ++counter;
+        }
+
+        return "Characteristic does not exist";
     }
     
     async getCharacteristic(property){
@@ -111,38 +116,43 @@ class UserController {
 
         return user.devices; 
     }
-    //returns an id
-    async getDevice(apiKey, deviceName){
+
+    async removeDevice(apiKey, deviceName){
         let user = await this.authenticatedUser(apiKey);
+        
         if (user === false) {
 
             return "User not found";
         }
-
-        for (let i = 0; i < user.devices.length; ++i) {
-            if (deviceName === user.devices[i].name) {
-
-                return user.devices[i];
-            }
-        }
-
-        return "Device not found";
+        ///////////////////////////////
+        console.log("NOT FINISHED");
+        ///////////////////////////////
+       
     }
+
     //returns an id for the characteristic
     async addCharacteristic(apiKey, deviceName, characteristicName, value){
         let user = await this.authenticatedUser(apiKey);
         if (user === false) {
-
             return "User not found";
         }
-        
+
+        if (characteristicName === undefined || value === undefined){
+            return "Error";
+        }
+
+        if (characteristicName === "" || value === "") {
+            return "Missing Info";
+        }
+
         let characteristic = new Characteristic(characteristicName, value);
         
         let counter = 0;
         for await (let device of user.devices) {            
             
             if (device.name === deviceName) {
-                let selectedDevice = new Device(device.name, device.characteristics)
+                let selectedDevice = new Device(device.name, device.characteristics);
+                
                 let addCharacteristic = await selectedDevice.addCharacteristic(characteristic);
                 if (addCharacteristic === true) {
                     user.devices[counter] = selectedDevice;
@@ -195,6 +205,31 @@ class UserController {
                 if(success === true) {
                     user.devices[counter] = updateDevice;
                     await user.save();
+                }
+                
+                return success;
+            }
+            ++counter;
+        }
+        
+        return "Device not found";
+    }
+
+    async removeCharacteristicValue(apiKey, deviceName, characteristicName){
+        let user = await this.authenticatedUser(apiKey);
+        if (user === false) {
+
+            return "User not found";
+        }
+
+        let counter = 0;
+        for await (let device of user.devices) {
+            if (device.name === deviceName) {
+                let updateDevice = new Device(device.name, device.characteristics);
+                let success = await updateDevice.removeCharacteristic(characteristicName);
+                if(success === true) {
+                    user.devices[counter] = updateDevice;
+                    await user.save();                   
                 }
                 
                 return success;

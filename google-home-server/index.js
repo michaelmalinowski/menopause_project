@@ -31,8 +31,8 @@ app.post('/addDevice', async function (req, res) {
     const apiKey = req.query.key;
     const deviceName = req.query.deviceName;
     
-    let newUser = await User.addDevice(apiKey, deviceName);
-    res.status(200).send(newUser);
+    let status = await User.addDevice(apiKey, deviceName);
+    res.status(200).send(status);
 });
 
 app.get('/getDevices', async function (req, res) {
@@ -43,15 +43,23 @@ app.get('/getDevices', async function (req, res) {
     res.status(200).send(devices);
 });
 
+app.post('/removeDevice', async function (req, res) {  
+    const apiKey = req.query.key;
+    const deviceName = req.query.deviceName;
+    
+    let status = await User.removeDevice(apiKey, deviceName);
+    res.status(200).send(status);
+});
+
 app.post('/addCharacteristic', async function (req, res) {
     const apiKey = req.query.key;
     const deviceName = req.query.deviceName;
     const characteristic = req.query.characteristic;
     const value = req.query.value;
 
-    let devices = await User.addCharacteristic(apiKey, deviceName, characteristic, value);
+    let status = await User.addCharacteristic(apiKey, deviceName, characteristic, value);
 
-    res.status(200).send(devices);
+    res.status(200).send(status);
 });
 
 app.get('/getCharacteristic', async function (req, res) {
@@ -70,9 +78,19 @@ app.post('/updateCharacteristic', async function (req, res) {
     const characteristic = req.query.characteristic;
     const value = req.query.value;
 
-    let success = await User.updateCharacteristicValue(apiKey, deviceName, characteristic, value);
+    let status = await User.updateCharacteristicValue(apiKey, deviceName, characteristic, value);
 
-    res.status(200).send(success);
+    res.status(200).send(status);
+});
+
+app.post('/removeCharacteristic', async function (req, res) {
+    const apiKey = req.query.key;
+    const deviceName = req.query.deviceName;
+    const characteristic = req.query.characteristic;
+
+    let status = await User.removeCharacteristicValue(apiKey, deviceName, characteristic);
+
+    res.status(200).send(status);
 });
 
 
