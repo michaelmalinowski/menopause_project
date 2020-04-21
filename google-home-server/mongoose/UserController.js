@@ -76,10 +76,10 @@ class UserController {
         let user = new User({name: userName, apiKey: buf})
         newUser = await user.save();
 
-        return newUser;
+        return {apiKey: buf};
     }
 
-    //returns am authenicated user
+    //returns an authenicated user
     async authenticatedUser(apiKey){
         let user = await User.findOne({apiKey: apiKey}).exec();
         
@@ -96,14 +96,19 @@ class UserController {
             
             return "User not found";
         }
-        
+        for await (let device of user.devices) {
+            if (device.name === name) {
+                return "Device already exists";
+            }
+        }
+
         let device = new Device(name);
         
         user.devices.push(device);
         
-        let success = await user.save();
+        await user.save();
         
-        return success;
+        return "Device has been added";
     }
     //returns a list of devices and their characteristics
     async getDevices(apiKey){
@@ -124,10 +129,16 @@ class UserController {
 
             return "User not found";
         }
-        ///////////////////////////////
-        console.log("NOT FINISHED");
-        ///////////////////////////////
-       
+        let counter = 0;
+        for await (let device of user.devices) {
+            if (device.name === deviceName) {
+                user.devices.splice(counter, 1);
+                let success = await user.save();
+                return "Device removed";
+            }
+            ++counter;
+        }
+       return "Device not found";
     }
 
     //returns an id for the characteristic
@@ -159,7 +170,7 @@ class UserController {
                     
                     let success = await user.save();
                     
-                    return true;
+                    return "Characteristic added";
                 };
 
                 return addCharacteristic;
