@@ -1,8 +1,8 @@
-#include "SingleLinkedList.h"
+#include "SinglyLinkedList.h"
 
-SingleLinkedList::SingleLinkedList(int length) : maxLength{length}{}
+SinglyLinkedList::SinglyLinkedList(int length) : maxLength{length}{}
 
-void SingleLinkedList::add(float value){
+void SinglyLinkedList::add(float value){
     if (this->length == 0) {
         Node* node = new Node(value);
         this->head = node;
@@ -33,11 +33,11 @@ void SingleLinkedList::add(float value){
 }
 
 
-float SingleLinkedList::average(){
+float SinglyLinkedList::average(){
     return this->totalValue / this->length;
 }
 
-bool SingleLinkedList::full(){
+bool SinglyLinkedList::full(){
     return this->length == this->maxLength;
 }
 

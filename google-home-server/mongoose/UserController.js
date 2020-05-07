@@ -122,6 +122,7 @@ class UserController {
         return user.devices; 
     }
 
+    //Returns a string of the status of the action
     async removeDevice(apiKey, deviceName){
         let user = await this.authenticatedUser(apiKey);
         
@@ -180,6 +181,7 @@ class UserController {
         
         return 'Device not found';
     }
+
     //return the characteristics value
     async getCharacteristic(apiKey, deviceName, characteristicName){
         let user = await this.authenticatedUser(apiKey);
@@ -200,7 +202,8 @@ class UserController {
 
         return "Device not found";
     }
-    //returns a boolean
+
+    //returns a string of the status of the action
     async updateCharacteristicValue(apiKey, deviceName, characteristicName, value){
         let user = await this.authenticatedUser(apiKey);
         if (user === false) {
@@ -226,6 +229,7 @@ class UserController {
         return "Device not found";
     }
 
+    //returns a string of the status of the action 
     async removeCharacteristicValue(apiKey, deviceName, characteristicName){
         let user = await this.authenticatedUser(apiKey);
         if (user === false) {

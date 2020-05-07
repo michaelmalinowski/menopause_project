@@ -6,19 +6,16 @@ var bodyParser = require('body-parser');
 let express = require('express');
 let app = express();
 let server = require('http').Server(app);
-let io = require('socket.io')(server);
-
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
 
 app.get('/', async function (req, res) {    
-
-
     res.status(200).send("Hello from google-menopause server");
 });
 
+//Creates a user and returns a apiKey
 app.post('/createUser', async function (req, res) {    
     const userName = req.query.userName;
 
@@ -27,6 +24,7 @@ app.post('/createUser', async function (req, res) {
     res.status(200).send({apiKey: user.apiKey});
 });
 
+//Adds a device to the specific user
 app.post('/addDevice', async function (req, res) {  
     const apiKey = req.query.key;
     const deviceName = req.query.deviceName;
@@ -35,6 +33,7 @@ app.post('/addDevice', async function (req, res) {
     res.status(200).send(status);
 });
 
+//Retrieves all devices and info from a specific user
 app.get('/getDevices', async function (req, res) {
     const apiKey = req.query.key;
     
@@ -43,6 +42,7 @@ app.get('/getDevices', async function (req, res) {
     res.status(200).send(devices);
 });
 
+//Removes a device from a specific user
 app.post('/removeDevice', async function (req, res) {  
     const apiKey = req.query.key;
     const deviceName = req.query.deviceName;
@@ -51,6 +51,7 @@ app.post('/removeDevice', async function (req, res) {
     res.status(200).send(status);
 });
 
+//Add a characteristic to a specific device
 app.post('/addCharacteristic', async function (req, res) {
     const apiKey = req.query.key;
     const deviceName = req.query.deviceName;
@@ -62,6 +63,7 @@ app.post('/addCharacteristic', async function (req, res) {
     res.status(200).send(status);
 });
 
+//Retreives a characteristic of a specific device 
 app.get('/getCharacteristic', async function (req, res) {
     const apiKey = req.query.key;
     const deviceName = req.query.deviceName;
@@ -72,6 +74,7 @@ app.get('/getCharacteristic', async function (req, res) {
     res.status(200).send(characteristicValue);
 });
 
+//Updates a characteristic of a specific device
 app.post('/updateCharacteristic', async function (req, res) {
     const apiKey = req.query.key;
     const deviceName = req.query.deviceName;
@@ -83,6 +86,7 @@ app.post('/updateCharacteristic', async function (req, res) {
     res.status(200).send(status);
 });
 
+//Removes a characteristic of a specific device
 app.post('/removeCharacteristic', async function (req, res) {
     const apiKey = req.query.key;
     const deviceName = req.query.deviceName;

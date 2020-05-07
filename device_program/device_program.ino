@@ -3,7 +3,7 @@
 #include <Wire.h>
 #include "MAX30105.h"
 #include "heartRate.h"
-#include "SingleLinkedList.h"
+#include "SinglyLinkedList.h"
 #include "wifiSecrets.h"
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
@@ -19,9 +19,9 @@ OneWire oneWire(TEMP_PIN);
 DallasTemperature temperatureSensor(&oneWire);
 
 //heartBeatList saves the last 15 recorded heart beats
-SingleLinkedList* heartBeatList = new SingleLinkedList(15);
+SinglyLinkedList* heartBeatList = new SinglyLinkedList(15);
 //temperatureList saves the last 15 recorded temperatures
-SingleLinkedList* temperatureList = new SingleLinkedList(15);
+SinglyLinkedList* temperatureList = new SinglyLinkedList(15);
 MAX30105 heartRateSensor;
 //Class initialization ends
 
@@ -35,9 +35,10 @@ long beatAverage = 0;
 int beatCounter = 0;
 int currentBPM;
 int temperatureAlert = 0;
+String deviceName = "Fan";
+String deviceCharacteristic = "Status";
 
-
-
+//Connect the board to the Wifi
 void WifiConnect(){
   Serial.println("Connecting");
   WiFi.mode(WIFI_STA);
@@ -45,13 +46,13 @@ void WifiConnect(){
   Serial.println("Connected");
 }
 
-
+//Sends a ping to the server to turn on a device.
 bool sendPing(String mode) {
   if((WiFiMulti.run() == WL_CONNECTED)) {
     Serial.println("PING");
     HTTPClient http;
 
-    http.begin("http://34.66.131.1/updateCharacteristic?key="+ key +"&deviceName=Fan&characteristic=Status&value=" + mode); 
+    http.begin("http://34.66.131.1/updateCharacteristic?key="+ key +"&deviceName=" + deviveName + "&characteristic=" + deviceCharacteristic + "&value=" + mode); 
 
     int statusCode = http.POST(0,0);
     if(statusCode > 0) {
@@ -70,10 +71,9 @@ bool sendPing(String mode) {
   return false;
 }
 
-
-
+//Reads the temperature of the ds18b20.
 void readTemperature() {
-  //Reads temperature twice due to previous temperature value being stored 
+//Reads temperature twice due to previous temperature value being stored 
   temperatureSensor.getTempCByIndex(0);
   temperatureSensor.requestTemperatures();
   temperature = temperatureSensor.getTempCByIndex(0);
@@ -122,7 +122,8 @@ bool readHeartRate() {
   return false;
 }
 
-
+//checks the average temperature for flacuation and return a server ping
+//when temperature stabilizes
 bool monitorTemperature(){
   while(temperature - temperatureList->average() > 1) {
     Serial.println("Checking temperature");
