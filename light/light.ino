@@ -18,6 +18,7 @@ void setup() {
 
 }
 
+//This loop ping the server every 5 seconds to determine if the fan status has changed
 void loop() {
 
     if((WiFiMulti.run() == WL_CONNECTED)) {
@@ -25,7 +26,6 @@ void loop() {
         HTTPClient http;
 
         http.begin("http://34.66.131.1/getCharacteristic?key="+ key +"&deviceName=Light&characteristic=Power"); //HTTP
-
         int statusCode = http.GET();
 
         if(statusCode > 0) {
@@ -35,12 +35,12 @@ void loop() {
                 if (power == 0 && payload == "on") {
 
                   power = 1;
-                  
                   digitalWrite(13, HIGH);
                   delay(100);
                   digitalWrite(13, LOW);
                   
                 } else if (power == 1 && payload == "off") {
+
                   power = 0;
                   digitalWrite(13, HIGH);
                   delay(100);

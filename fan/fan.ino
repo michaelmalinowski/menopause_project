@@ -11,8 +11,9 @@ int power = 0;
 String key = String(API_KEY);
 
 void setup() {
-    //pin 13 is Digital Pin 7 (D7)
+    //pin 13 is Digital Pin 7 (D7) <--> LED Light 
     pinMode(13, OUTPUT);
+    //pin 5 is Digital Pin 1 (D1) <--> Fan 
     pinMode(5, OUTPUT);
     analogWrite(5, LOW);
     Serial.begin(115200);
@@ -29,7 +30,7 @@ void loop() {
 
         //A get request for the status of the device. 
         String url = "http://34.66.131.1/getCharacteristic?key="+ key +"&deviceName=Fan&characteristic=Status";
-        http.begin(url); //HTTP
+        http.begin(url); 
           
         int statusCode = http.GET();
         if(statusCode > 0) {
