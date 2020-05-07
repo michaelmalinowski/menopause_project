@@ -18,9 +18,9 @@ ESP8266WiFiMulti WiFiMulti;
 OneWire oneWire(TEMP_PIN);
 DallasTemperature temperatureSensor(&oneWire);
 
-//heartBeatList saves the last 10 recorded heart beats
+//heartBeatList saves the last 15 recorded heart beats
 SingleLinkedList* heartBeatList = new SingleLinkedList(15);
-//temperatureList saves the last 10 recorded temperatures
+//temperatureList saves the last 15 recorded temperatures
 SingleLinkedList* temperatureList = new SingleLinkedList(15);
 MAX30105 heartRateSensor;
 //Class initialization ends
@@ -57,7 +57,6 @@ bool sendPing(String mode) {
     if(statusCode > 0) {
         if(statusCode == HTTP_CODE_OK) {
             String payload = http.getString();
-            Serial.println(payload);
             http.end();
             if (mode == "on") {
               return monitorTemperature();
@@ -67,6 +66,7 @@ bool sendPing(String mode) {
     } 
     http.end();
   }
+  Serial.println("Fail");
   return false;
 }
 
@@ -125,7 +125,7 @@ bool readHeartRate() {
 
 bool monitorTemperature(){
   while(temperature - temperatureList->average() > 1) {
-    Serial.println("CHECKING");
+    Serial.println("Checking temperature");
     delay(20000);
     readTemperature();
   }
