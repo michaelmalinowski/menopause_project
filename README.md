@@ -1,4 +1,4 @@
-#Menopause Wrist Device and Server
+# Menopause Wrist Device and Server
 
 A device for measuring the temperature and heartrate using the MAX30105 heartrate sensor and the ds18b20 temperature sensor.
 The code is meant to be used on a ESP8266 board but may be compatiable with other boards.
@@ -13,7 +13,7 @@ Start by creating a user and using your api key to perform different actions suc
 characteristic. Characteristics can be updated as well to control aspects of a device. With all devices setup correctly, the
 wrist device can control any device from anywhere. 
 
-### API Calls
+## API Calls
 
 /createUser 
 Params:
