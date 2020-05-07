@@ -7,7 +7,7 @@ Two example devices are provided (Fan and Light) to demonstrate functionality of
 
 ## Getting Started
 The google home server should be upload for this to project to work. A temporary server will be running until July 30th 2020
-*http://34.66.131.1/ 
+http://34.66.131.1/ 
 
 Start by creating a user and using your api key to perform different actions such as creating devices and adding 
 characteristic. Characteristics can be updated as well to control aspects of a device. With all devices setup correctly, the
