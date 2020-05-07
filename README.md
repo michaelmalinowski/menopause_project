@@ -5,7 +5,7 @@ The code is meant to be used on a ESP8266 board but may be compatiable with othe
 
 Two example devices are provided (Fan and Light) to demonstrate functionality of the server paired with the wrist device.
 
-##Getting Started
+## Getting Started
 The google home server should be upload for this to project to work. A temporary server will be running until July 30th 2020
 *http://34.66.131.1/ 
 
